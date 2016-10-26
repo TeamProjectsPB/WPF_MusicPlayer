@@ -1,0 +1,160 @@
+﻿<Window x:Class="Wpf_MusicPlayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf_MusicPlayer"
+        mc:Ignorable="d"
+        Title="Odtwarzacz muzyczny" MinHeight="650" MinWidth="650">
+    <Grid Name="MainGrid" ShowGridLines="false">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*" MaxHeight="135"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Name="PlaylistsGroupBox" Grid.Column="0" Grid.Row="0" Margin="5">
+            <GroupBox.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="\IMG\cassettetape.png" MaxHeight="45"/>
+                    <Label Grid.Column="1" VerticalContentAlignment="Center">Playlisty</Label>
+                </Grid>
+            </GroupBox.Header>
+            <ListView Name="PlaylistsListView" Margin="4">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Dodaj nową" />
+                        <MenuItem Header="Usuń" />
+                        <Separator />
+                        <MenuItem Header="Eksportuj..." />
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
+        </GroupBox>
+
+        <GroupBox Name="LibraryGroupBox" Grid.Column="0" Grid.Row="1" Margin="5">
+            <GroupBox.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="\IMG\home.png" MaxHeight="35"/>
+                    <Label Grid.Column="1" VerticalContentAlignment="Center">Biblioteka</Label>
+                </Grid>
+            </GroupBox.Header>
+            <ListView Name="LibraryListView" Margin="4">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Dodaj nową" />
+                        <MenuItem Header="Usuń" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
+        </GroupBox>
+
+        <GroupBox Name="CurrentPlayingGroupBox" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="5">
+            <GroupBox.Header>
+                <Grid ShowGridLines="False" Width="auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="\IMG\levels.png" MaxHeight="45"/>
+                    <Label Grid.Column="1" Margin="3">Aktualna lista odtwarzania</Label>
+                    <TextBox Grid.Column="2" Margin="3" Name="SearchTextBox" Text="Czego szukasz?" VerticalContentAlignment="Center" MinWidth="250"/>
+                    <Button Grid.Column="3" Margin="3" Name="SearchButton">Szukaj</Button>
+                </Grid>
+            </GroupBox.Header>
+            <ListView Name="CurrentPlayingListView" Margin="4">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Dodaj do playlisty..." />
+                        <MenuItem Header="Usuń z aktualnie odtwarzanych" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
+        </GroupBox>
+
+        <GroupBox Name="ControlsGroupBox" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="5">
+            <GroupBox.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="\IMG\record-player.png" MaxHeight="45"/>
+                    <Label Grid.Column="1" VerticalContentAlignment="Center">Sterowanie</Label>
+                </Grid>
+            </GroupBox.Header>
+            
+            <Grid Name="ControlPanelGrid" ShowGridLines="false">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Name="PositionLabel"  Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right">00:00</Label>
+                <Slider Name="SeekBarSlider" Grid.Row="0" Grid.Column="1" Width="auto" Margin="4" Grid.ColumnSpan="5" VerticalAlignment="Center"/>
+                <Label Grid.Column="7" Grid.Row="0" Name="DurationLabel" Margin="3" VerticalAlignment="Center">00:00</Label>
+
+                <Button Name="PlayButton" Margin="3" Grid.Row="1" Grid.Column="3"  VerticalAlignment="Center" BorderThickness="0" Background="White">
+                    <Image Grid.Column="0" Source="\IMG\playpouse.png" MaxHeight="45"/>
+                </Button>
+                <Button Name="PreviousTrackButton" Margin="3" Grid.Row="1" Grid.Column="2"  VerticalAlignment="Center"  BorderThickness="0" Background="White">
+                    <Image Grid.Column="0" Source="\IMG\leftarrow.png" MaxHeight="45"/>
+                </Button>
+                <Button Name="NextTrackButton" Margin="3" Grid.Row="1" Grid.Column="4"  VerticalAlignment="Center"  BorderThickness="0" Background="White">
+                    <Image Grid.Column="0" Source="\IMG\nextarrow.png" MaxHeight="45"/>
+                </Button>
+                <Button Name="StopTrackButton" Margin="3" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center"  BorderThickness="0" Background="White">
+                    <Image Grid.Column="0" Source="\IMG\stopbutton.png" MaxHeight="45"/>
+                </Button>
+
+                <Grid Grid.Column="6" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="\IMG\mute.png" MaxHeight="25"/>
+                    <Slider Name="VolumeSlider" Width="auto" Margin="4" Grid.Column="1" VerticalAlignment="Center"/>
+                </Grid>
+
+                <Grid Grid.Column="0" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="ShufflePlayButton"  Grid.Column="0" Margin="5" HorizontalAlignment="center" VerticalAlignment="Center" BorderThickness="0" Background="White">
+                        <Image Source="\IMG\shuffle.png" MaxHeight="30"/>
+                    </Button>
+                    <Button Name="RepeatAllButton" Grid.Column="1" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0" Background="White">
+                        <Image Source="\IMG\repeat.png" MaxHeight="30"/>
+                    </Button>
+                    
+                </Grid>
+
+
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>
