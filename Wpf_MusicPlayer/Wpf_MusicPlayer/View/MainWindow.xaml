@@ -165,7 +165,7 @@
 
                 <Label Grid.Column="0" Grid.Row="0" Name="PositionLabel"  Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right" ></Label>
                 <Slider Name="SeekBarSlider" Grid.Row="0" Grid.Column="1" Width="auto" Margin="4" Grid.ColumnSpan="5" VerticalAlignment="Center"
-                        Minimum="0" IsMoveToPointEnabled="True"                       />
+                        Minimum="0" IsMoveToPointEnabled="True"  ValueChanged="SeekBarSlider_OnValueChanged"                     />
                 <Label Grid.Column="7" Grid.Row="0" Name="DurationLabel" Margin="3" VerticalAlignment="Center" ></Label>
 
                 <Button Name="PlayButton" Margin="3" Grid.Row="1" Grid.Column="3"  VerticalAlignment="Center" BorderThickness="0" Background="White"

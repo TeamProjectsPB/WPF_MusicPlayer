@@ -265,5 +265,16 @@ namespace Wpf_MusicPlayer
         }
         #endregion
 
+        private void SeekBarSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {            
+            if (Math.Round(Math.Abs(e.NewValue - e.OldValue)) > 2)
+            {
+                //timer.Stop();
+                CurrentPosition = e.NewValue;
+                //timer.Start();
+            }
+            
+            //throw new NotImplementedException();
+        }
     }
 }
