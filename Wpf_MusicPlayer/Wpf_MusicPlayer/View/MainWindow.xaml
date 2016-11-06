@@ -6,7 +6,42 @@
         xmlns:local="clr-namespace:Wpf_MusicPlayer"
         mc:Ignorable="d"
         Title="Odtwarzacz muzyczny" MinHeight="650" MinWidth="650">
-    <Grid Name="MainGrid" ShowGridLines="false">
+    <Window.Resources>
+        <!--<ResourceDictionary Source="Dictionary.xaml"/>-->
+        <DataTemplate x:Key="LibraryDataTemplate">
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Usuń" Name="RemoveLibrary" Click="RemoveLibrary_OnClick"></MenuItem>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+                <TextBlock Text="{Binding Path=Name}"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="CurrentTracksData">
+            <Grid>
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Dodaj do playlisty..." Name="AddTrackToPlaylistItem" Click="AddTrackToPlaylistItem_OnClick"/>
+                        <MenuItem Header="Usuń z aktualnie odtwarzanych" Name="RemoveTrackItem" Click="RemoveTrackItem_OnClick"/>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" SharedSizeGroup="PerformerColumn"/>
+                    <ColumnDefinition Width="*" SharedSizeGroup="TitleColumn"/>
+                    <ColumnDefinition Width="*" SharedSizeGroup="AlbumColumn"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Path=Tag.FirstPerformer}"></TextBlock>
+                <TextBlock Grid.Column="1" Text="{Binding Path=Tag.Title}"></TextBlock>
+                <TextBlock Grid.Column="2" Text="{Binding Path=Tag.Album}"></TextBlock>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid Name="MainGrid" ShowGridLines="false" IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="3*"/>
@@ -24,19 +59,25 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="\IMG\cassettetape.png" MaxHeight="45"/>
+                    <Image Grid.Column="0" Source="/IMG/cassettetape.png" MaxHeight="45"/>
                     <Label Grid.Column="1" VerticalContentAlignment="Center">Playlisty</Label>
                 </Grid>
             </GroupBox.Header>
             <ListView Name="PlaylistsListView" Margin="4">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Dodaj nową" />
-                        <MenuItem Header="Usuń" />
+                        <MenuItem Header="Dodaj nową" Name="AddNewPlaylistItem" />
+                        <!--<MenuItem Header="Usuń" Name="RemovePlaylistItem"/>-->
                         <Separator />
                         <MenuItem Header="Eksportuj..." />
                     </ContextMenu>
                 </ListView.ContextMenu>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        <EventSetter Event="MouseDoubleClick" x:Name="PlaylistItemDoubleClick" Handler="PlaylistItemDoubleClick"></EventSetter>
+                    </Style>
+                </ListView.ItemContainerStyle>
             </ListView>
         </GroupBox>
 
@@ -47,15 +88,22 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="\IMG\home.png" MaxHeight="35"/>
+                    <Image Grid.Column="0" Source="/IMG/home.png" MaxHeight="35"/>
                     <Label Grid.Column="1" VerticalContentAlignment="Center">Biblioteka</Label>
                 </Grid>
             </GroupBox.Header>
-            <ListView Name="LibraryListView" Margin="4">
+            <ListView Name="LibraryListView" Margin="4"
+                      ItemTemplate="{StaticResource LibraryDataTemplate}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        <EventSetter Event="MouseDoubleClick" x:Name="LibraryItemDoubleClick" Handler="LibraryItemDoubleClick"></EventSetter>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Dodaj nową" />
-                        <MenuItem Header="Usuń" />
+                        <MenuItem Header="Dodaj nową" Name="AddNewLibraryItem" Click="AddNewLibraryItem_OnClick" />
+                        <!--<MenuItem Header="Usuń" Name="RemoveLibraryItem"/>-->
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
@@ -70,19 +118,21 @@
                         <ColumnDefinition Width="8*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="\IMG\levels.png" MaxHeight="45"/>
+                    <Image Grid.Column="0" Source="/IMG/levels.png" MaxHeight="45"/>
                     <Label Grid.Column="1" Margin="3">Aktualna lista odtwarzania</Label>
-                    <TextBox Grid.Column="2" Margin="3" Name="SearchTextBox" Text="Czego szukasz?" VerticalContentAlignment="Center" MinWidth="250"/>
+                    <TextBox Grid.Column="2" Margin="3" Name="SearchTextBox" Text="Czego szukasz?"  VerticalContentAlignment="Center" MinWidth="250" Grid.ColumnSpan="2" Height="26" VerticalAlignment="Bottom"/>
                     <Button Grid.Column="3" Margin="3" Name="SearchButton">Szukaj</Button>
+                    <!--Text="Czego szukasz?"-->
                 </Grid>
             </GroupBox.Header>
-            <ListView Name="CurrentPlayingListView" Margin="4">
-                <ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Dodaj do playlisty..." />
-                        <MenuItem Header="Usuń z aktualnie odtwarzanych" />
-                    </ContextMenu>
-                </ListView.ContextMenu>
+            <ListView Name="CurrentPlayingListView" Margin="4"
+                      ItemTemplate="{StaticResource CurrentTracksData}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        <EventSetter Event="MouseDoubleClick" x:Name="CurrentTrackItemDoubleClick" Handler="CurrentTrackItemDoubleClick"></EventSetter>
+                    </Style>
+                </ListView.ItemContainerStyle>
             </ListView>
         </GroupBox>
 
@@ -93,11 +143,11 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="\IMG\record-player.png" MaxHeight="45"/>
+                    <Image Grid.Column="0" Source="/IMG/record-player.png" MaxHeight="45"/>
                     <Label Grid.Column="1" VerticalContentAlignment="Center">Sterowanie</Label>
                 </Grid>
             </GroupBox.Header>
-            
+
             <Grid Name="ControlPanelGrid" ShowGridLines="false">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
@@ -113,21 +163,26 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Grid.Row="0" Name="PositionLabel"  Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right">00:00</Label>
-                <Slider Name="SeekBarSlider" Grid.Row="0" Grid.Column="1" Width="auto" Margin="4" Grid.ColumnSpan="5" VerticalAlignment="Center"/>
-                <Label Grid.Column="7" Grid.Row="0" Name="DurationLabel" Margin="3" VerticalAlignment="Center">00:00</Label>
+                <Label Grid.Column="0" Grid.Row="0" Name="PositionLabel"  Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right" ></Label>
+                <Slider Name="SeekBarSlider" Grid.Row="0" Grid.Column="1" Width="auto" Margin="4" Grid.ColumnSpan="5" VerticalAlignment="Center"
+                        Minimum="0" IsMoveToPointEnabled="True"                       />
+                <Label Grid.Column="7" Grid.Row="0" Name="DurationLabel" Margin="3" VerticalAlignment="Center" ></Label>
 
-                <Button Name="PlayButton" Margin="3" Grid.Row="1" Grid.Column="3"  VerticalAlignment="Center" BorderThickness="0" Background="White">
-                    <Image Grid.Column="0" Source="\IMG\playpouse.png" MaxHeight="45"/>
+                <Button Name="PlayButton" Margin="3" Grid.Row="1" Grid.Column="3"  VerticalAlignment="Center" BorderThickness="0" Background="White"
+                        Click="PlayButton_OnClick">
+                    <Image Grid.Column="0" Source="/IMG/playpouse.png" MaxHeight="45"/>
                 </Button>
-                <Button Name="PreviousTrackButton" Margin="3" Grid.Row="1" Grid.Column="2"  VerticalAlignment="Center"  BorderThickness="0" Background="White">
-                    <Image Grid.Column="0" Source="\IMG\leftarrow.png" MaxHeight="45"/>
+                <Button Name="PreviousTrackButton" Margin="3" Grid.Row="1" Grid.Column="2"  VerticalAlignment="Center"  BorderThickness="0" Background="White"
+                        Click="PreviousTrackButton_OnClick">
+                    <Image Grid.Column="0" Source="/IMG/leftarrow.png" MaxHeight="45"/>
                 </Button>
-                <Button Name="NextTrackButton" Margin="3" Grid.Row="1" Grid.Column="4"  VerticalAlignment="Center"  BorderThickness="0" Background="White">
-                    <Image Grid.Column="0" Source="\IMG\nextarrow.png" MaxHeight="45"/>
+                <Button Name="NextTrackButton" Margin="3" Grid.Row="1" Grid.Column="4"  VerticalAlignment="Center"  BorderThickness="0" Background="White"
+                        Click="NextTrackButton_OnClick">
+                    <Image Grid.Column="0" Source="/IMG/nextarrow.png" MaxHeight="45"/>
                 </Button>
-                <Button Name="StopTrackButton" Margin="3" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center"  BorderThickness="0" Background="White">
-                    <Image Grid.Column="0" Source="\IMG\stopbutton.png" MaxHeight="45"/>
+                <Button Name="StopTrackButton" Margin="3" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center"  BorderThickness="0" Background="White"
+                        Click="StopTrackButton_OnClick">
+                    <Image Grid.Column="0" Source="/IMG/stopbutton.png" MaxHeight="45"/>
                 </Button>
 
                 <Grid Grid.Column="6" Grid.Row="1">
@@ -135,22 +190,26 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="\IMG\mute.png" MaxHeight="25"/>
-                    <Slider Name="VolumeSlider" Width="auto" Margin="4" Grid.Column="1" VerticalAlignment="Center"/>
+                    <Image Grid.Column="0" Source="/IMG/mute.png" MaxHeight="25"/>
+                    <Slider Name="VolumeSlider" Width="auto" Margin="4" Grid.Column="1" VerticalAlignment="Center"
+                            Minimum="0" Maximum="100" TickFrequency="1" Value="{Binding Path=CurrentVolume}"
+                            ValueChanged="VolumeSlider_OnValueChanged"/>
                 </Grid>
-
+                <!-- dodać kolory przy zmianie boola-->
                 <Grid Grid.Column="0" Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Name="ShufflePlayButton"  Grid.Column="0" Margin="5" HorizontalAlignment="center" VerticalAlignment="Center" BorderThickness="0" Background="White">
-                        <Image Source="\IMG\shuffle.png" MaxHeight="30"/>
+                    <Button Name="ShufflePlayButton"  Grid.Column="0" Margin="5" HorizontalAlignment="center" VerticalAlignment="Center" BorderThickness="0" Background="White"
+                            Click="ShufflePlayButton_OnClick">
+                        <Image Source="/IMG/shuffle.png" MaxHeight="30"/>
                     </Button>
-                    <Button Name="RepeatAllButton" Grid.Column="1" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0" Background="White">
-                        <Image Source="\IMG\repeat.png" MaxHeight="30"/>
+                    <Button Name="RepeatAllButton" Grid.Column="1" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0" Background="White"
+                            Click="RepeatAllButton_OnClick">
+                        <Image Source="/IMG/repeat.png" MaxHeight="30"/>
                     </Button>
-                    
+
                 </Grid>
 
 
