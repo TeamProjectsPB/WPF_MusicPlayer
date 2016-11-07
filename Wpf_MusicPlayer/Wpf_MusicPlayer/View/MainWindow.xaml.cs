@@ -1,67 +1,112 @@
 ﻿using System;
-using System.Windows;
-using Wpf_MusicPlayer.Model;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Timers;
-using Song = TagLib.File;
+using System.Windows.Media;
 using System.Windows.Threading;
+using Wpf_MusicPlayer.Model;
+using MediaPlayer = Wpf_MusicPlayer.Model.MediaPlayer;
+using Song = TagLib.File;
 
 namespace Wpf_MusicPlayer
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         #region Members
 
-        static DispatcherTimer timer; 
+        private static DispatcherTimer timer;
         public static MediaPlayer player = new MediaPlayer();
         private readonly string fileUrl = Directory.GetCurrentDirectory() + "\\config.dat";
+        private bool repeatAll;
+        private bool randomPlay;
+
         #endregion
         #region Properties
-        public bool RepeatAll { get; set; }
-        public bool RandomPlay { get; set; }
-        public string CurrentVolumeToString
+
+        public bool RepeatAll
         {
-            get { return player.CurrentVolume + "%"; }
+            get { return repeatAll; }
+            set
+            {
+                repeatAll = value;
+                OnPropertyChanged("RepeatAll");
+                OnPropertyChanged("RepeatAllButtonBackground");
+            }
         }
-        public string CurrentPositionToString
+
+        public bool RandomPlay
         {
-            get { return player.CurrentPositionToString; }
+            get { return randomPlay; }
+            set
+            {
+                randomPlay = value;
+                OnPropertyChanged("RandomPlay");
+                OnPropertyChanged("ShuffleButtonBackground");
+            }
         }
+
+        public Brush ShuffleButtonBackground
+        {
+            get { return randomPlay ? Brushes.Yellow : Brushes.White; }
+        }
+
+        public Brush RepeatAllButtonBackground
+        {
+            get { return repeatAll ? Brushes.Yellow : Brushes.White; }
+        }
+        #region CurrentPosition
         public double CurrentPosition
         {
             get { return player.CurrentPosition; }
             set { player.CurrentPosition = value; }
         }
-        public string DurationToString
+        public string CurrentPositionToString
         {
-            get { return player.DurationToString; }
+            get { return player.CurrentPositionToString; }
         }
+        #endregion
+
+        #region Duration
         public double Duration
         {
             get { return player.Duration; }
         }
+
+        public string DurationToString
+        {
+            get { return player.DurationToString; }
+        }
+        #endregion
+
+
+
+
         public List<Song> CurrentSongs
         {
             get { return player.CurrentSongs; }
         }
+
         public List<string> CurrentSongsToString
         {
             get { return player.CurrentSongsToString; }
         }
+
         public List<string> PlaylistsToString
         {
             get { return player.PlaylistsToString; }
         }
+
         public List<string> LibrariesToString
         {
             get { return player.LibrariesToString; }
         }
+
         public string CurrentSong
         {
             get { return player.CurrentSong; }
@@ -72,12 +117,14 @@ namespace Wpf_MusicPlayer
             get { return player.Libraries; }
         }
 
-        public int SongId { get; set; }
+        // public int SongId { get; set; }
+
         #endregion
+        #region Constructors
         public MainWindow()
         {
             InitializeComponent();
-            
+
 
             if (File.Exists(fileUrl))
             {
@@ -86,9 +133,14 @@ namespace Wpf_MusicPlayer
                 LoadPlaylists(fileUrl);
                 LoadLibraryMediaPlaylist();
             }
-            else { ConfigFile.CreateNewFile(fileUrl); }
+            else
+            {
+                ConfigFile.CreateNewFile(fileUrl);
+            }
 
             MainGrid.DataContext = player;
+            ControlPanelGrid.DataContext = this;
+            VolumeGrid.DataContext = player;
             PlaylistsListView.ItemsSource = PlaylistsToString;
             LibraryListView.ItemsSource = Libraries;
             CurrentPlayingListView.ItemsSource = CurrentSongs;
@@ -98,14 +150,78 @@ namespace Wpf_MusicPlayer
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Start();
         }
-
+        #endregion
+        #region Timer
         private void TimerOnTick(object sender, EventArgs eventArgs)
         {
-            PositionLabel.Content = CurrentPositionToString;
-            DurationLabel.Content = DurationToString;
-            SeekBarSlider.Maximum = Duration;
-            SeekBarSlider.Value = CurrentPosition;
+            OnPropertyChanged("CurrentPositionToString");
+            OnPropertyChanged("DurationToString");
+            OnPropertyChanged("Duration");
+            OnPropertyChanged("CurrentPosition");
         }
+        #endregion
+        #region Sliders
+
+        private void VolumeSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            ConfigFile.SaveVolume(fileUrl, player.CurrentVolume);
+        }
+        private void SeekBarSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (Math.Round(Math.Abs(e.NewValue - e.OldValue)) > 2)
+            {
+                //timer.Stop();
+                CurrentPosition = e.NewValue;
+                //timer.Start();
+            }
+        }
+        #endregion
+        #region LibraryListViewClicks
+
+        private void AddNewLibraryItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RemoveLibrary_OnClick(object sender, RoutedEventArgs e)
+        {
+            var item = sender as MenuItem;
+            var library = item.DataContext as Library;
+            var removedCurrentLib = player.RemoveLibrary(library.Name);
+            ConfigFile.RemoveLibrary(fileUrl, library.Name);
+            ReloadLibraryListViewItemsSource();
+            if (removedCurrentLib)
+            {
+                ReloadCurrentPlayingListViewItemsSource();
+            }
+        }
+
+        #endregion
+        #region CurrentTrackListViewClicks
+
+        private void AddTrackToPlaylistItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RemoveTrackItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            player.RemoveTrack(CurrentPlayingListView.SelectedIndex);
+            ReloadCurrentPlayingListViewItemsSource();
+        }
+
+        #endregion       
+        #region PropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+        }
+
+        #endregion      
         #region ReloadItemsSource
 
         private void ReloadPlaylistsListViewItemsSource()
@@ -113,39 +229,45 @@ namespace Wpf_MusicPlayer
             PlaylistsListView.ItemsSource = null;
             PlaylistsListView.ItemsSource = PlaylistsToString;
         }
+
         private void ReloadLibraryListViewItemsSource()
         {
             LibraryListView.ItemsSource = null;
             LibraryListView.ItemsSource = Libraries;
         }
+
         private void ReloadCurrentPlayingListViewItemsSource()
         {
             CurrentPlayingListView.ItemsSource = null;
             CurrentPlayingListView.ItemsSource = CurrentSongs;
         }
-        #endregion
 
+        #endregion
         #region FileLoaders
         public void LoadCurrentVolume(string url)
         {
             player.CurrentVolume = ConfigFile.GetVolume(url);
         }
+
         private void LoadLibraries(string url)
         {
             var libraries = ConfigFile.GetLibraries(url);
             libraries.ForEach(x => AddLibrary(x.Item1, x.Item2));
         }
+
         private void LoadPlaylists(string url)
         {
             var playlists = ConfigFile.GetPlaylists(url);
             playlists.ForEach(x => AddPlaylist(x));
         }
+
         public void LoadLibraryMediaPlaylist()
         {
             player.LoadLibraryMediaPlaylist();
         }
         #endregion
         #region Add
+
         public void AddLibrary(string name, string url)
         {
             player.AddLibrary(name, url);
@@ -155,37 +277,38 @@ namespace Wpf_MusicPlayer
         {
             player.AddPlaylist(name);
         }
-        
+
         #endregion
         #region Create
+
         public void CreatePlaylist(string name)
         {
             ConfigFile.SaveNewPlaylist(fileUrl, name);
             player.CreatePlaylist(name);
         }
+
         public void CreateLibrary(string name, string url)
         {
             ConfigFile.SaveNewLibrary(fileUrl, name, url);
             AddLibrary(name, url);
         }
+
         #endregion
         #region ButtonEvents
+
         private void RepeatAllButton_OnClick(object sender, RoutedEventArgs e)
         {
             RepeatAll = player.ChangeRepeatAllStatement();
         }
-        
+
 
         private void ShufflePlayButton_OnClick(object sender, RoutedEventArgs e)
         {
             RandomPlay = player.ChangeRandomPlayStatement();
         }
 
-
-
-
-
         #endregion
+        #region PlayerButtons
 
         private void StopTrackButton_OnClick(object sender, RoutedEventArgs e)
         {
@@ -206,41 +329,10 @@ namespace Wpf_MusicPlayer
         {
             player.Play();
         }
-        private void VolumeSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            ConfigFile.SaveVolume(fileUrl, player.CurrentVolume);
-        }
 
-        private void AddNewLibraryItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void RemoveLibrary_OnClick(object sender, RoutedEventArgs e)
-        {
-            var item = sender as MenuItem;
-            var library = item.DataContext as Library;
-            bool removedCurrentLib = player.RemoveLibrary(library.Name);
-            ConfigFile.RemoveLibrary(fileUrl, library.Name);
-            ReloadLibraryListViewItemsSource();
-            if (removedCurrentLib)
-            {
-                ReloadCurrentPlayingListViewItemsSource();
-            }
-        }
-
-        private void AddTrackToPlaylistItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void RemoveTrackItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            player.RemoveTrack(CurrentPlayingListView.SelectedIndex);
-            ReloadCurrentPlayingListViewItemsSource();
-        }
-
+        #endregion
         #region DoubleClicks
+
         private void LibraryItemDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var item = sender as ListViewItem;
@@ -260,21 +352,10 @@ namespace Wpf_MusicPlayer
         {
             var item = sender as ListViewItem;
             var track = item.DataContext as Song;
-            int index = player.CurrentSongs.FindIndex(x => x == track);
+            var index = player.CurrentSongs.FindIndex(x => x == track);
             player.LoadCurrentSong(index);
         }
-        #endregion
 
-        private void SeekBarSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {            
-            if (Math.Round(Math.Abs(e.NewValue - e.OldValue)) > 2)
-            {
-                //timer.Stop();
-                CurrentPosition = e.NewValue;
-                //timer.Start();
-            }
-            
-            //throw new NotImplementedException();
-        }
+        #endregion
     }
 }

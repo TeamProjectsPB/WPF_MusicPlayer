@@ -163,10 +163,11 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Grid.Row="0" Name="PositionLabel"  Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right" ></Label>
+                <Label Grid.Column="0" Grid.Row="0" Name="PositionLabel"  Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right" Content="{Binding Path=CurrentPositionToString, UpdateSourceTrigger=PropertyChanged}" ></Label>
                 <Slider Name="SeekBarSlider" Grid.Row="0" Grid.Column="1" Width="auto" Margin="4" Grid.ColumnSpan="5" VerticalAlignment="Center"
-                        Minimum="0" IsMoveToPointEnabled="True"  ValueChanged="SeekBarSlider_OnValueChanged"                     />
-                <Label Grid.Column="7" Grid.Row="0" Name="DurationLabel" Margin="3" VerticalAlignment="Center" ></Label>
+                        Minimum="0" IsMoveToPointEnabled="True"  ValueChanged="SeekBarSlider_OnValueChanged"
+                        Maximum="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Path=CurrentPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Grid.Column="7" Grid.Row="0" Name="DurationLabel" Margin="3" VerticalAlignment="Center" Content="{Binding Path=DurationToString, UpdateSourceTrigger=PropertyChanged}"></Label>
 
                 <Button Name="PlayButton" Margin="3" Grid.Row="1" Grid.Column="3"  VerticalAlignment="Center" BorderThickness="0" Background="White"
                         Click="PlayButton_OnClick">
@@ -185,27 +186,27 @@
                     <Image Grid.Column="0" Source="/IMG/stopbutton.png" MaxHeight="45"/>
                 </Button>
 
-                <Grid Grid.Column="6" Grid.Row="1">
+                <Grid Grid.Column="6" Grid.Row="1" Name="VolumeGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Source="/IMG/mute.png" MaxHeight="25"/>
                     <Slider Name="VolumeSlider" Width="auto" Margin="4" Grid.Column="1" VerticalAlignment="Center"
-                            Minimum="0" Maximum="100" TickFrequency="1" Value="{Binding Path=CurrentVolume}"
+                            Minimum="0" Maximum="100" TickFrequency="1" IsMoveToPointEnabled="True" Value="{Binding Path=CurrentVolume}"
                             ValueChanged="VolumeSlider_OnValueChanged"/>
                 </Grid>
                 <!-- dodać kolory przy zmianie boola-->
-                <Grid Grid.Column="0" Grid.Row="1">
+                <Grid Grid.Column="0" Grid.Row="1" Name="PlayerOptionButtonsGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Name="ShufflePlayButton"  Grid.Column="0" Margin="5" HorizontalAlignment="center" VerticalAlignment="Center" BorderThickness="0" Background="White"
-                            Click="ShufflePlayButton_OnClick">
+                    <Button Name="ShufflePlayButton"  Grid.Column="0" Margin="5" HorizontalAlignment="center" VerticalAlignment="Center" BorderThickness="0" Background="{Binding Path=ShuffleButtonBackground, UpdateSourceTrigger=PropertyChanged}"
+                            Click="ShufflePlayButton_OnClick" >
                         <Image Source="/IMG/shuffle.png" MaxHeight="30"/>
                     </Button>
-                    <Button Name="RepeatAllButton" Grid.Column="1" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0" Background="White"
+                    <Button Name="RepeatAllButton" Grid.Column="1" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0" Background="{Binding Path=RepeatAllButtonBackground, UpdateSourceTrigger=PropertyChanged}"
                             Click="RepeatAllButton_OnClick">
                         <Image Source="/IMG/repeat.png" MaxHeight="30"/>
                     </Button>

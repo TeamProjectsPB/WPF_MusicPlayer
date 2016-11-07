@@ -105,7 +105,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Converter\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="IMG\cassettetape.png" />
     <Resource Include="IMG\home.png" />
