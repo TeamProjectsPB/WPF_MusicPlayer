@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using WMPLib;
 using Wpf_MusicPlayer.Model;
 using Wpf_MusicPlayer.View;
 using ListViewItem = System.Windows.Controls.ListViewItem;
@@ -329,7 +330,14 @@ namespace Wpf_MusicPlayer
 
         private void PlayButton_OnClick(object sender, RoutedEventArgs e)
         {
-            player.Play();
+            if (player.MPlayer.playState.Equals(WMPPlayState.wmppsPaused))
+            {
+                player.Play();
+            }
+            else if (player.MPlayer.playState.Equals(WMPPlayState.wmppsPlaying))
+            {
+                player.Pause();
+            }
         }
 
         #endregion
