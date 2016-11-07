@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Wpf_MusicPlayer.Model;
+using Wpf_MusicPlayer.View;
 using MediaPlayer = Wpf_MusicPlayer.Model.MediaPlayer;
 using Song = TagLib.File;
 
@@ -180,7 +181,8 @@ namespace Wpf_MusicPlayer
 
         private void AddNewLibraryItem_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            AddLibraryWindow addLibraryWindow = new AddLibraryWindow();
+            addLibraryWindow.ShowDialog();
         }
 
         private void RemoveLibrary_OnClick(object sender, RoutedEventArgs e)
