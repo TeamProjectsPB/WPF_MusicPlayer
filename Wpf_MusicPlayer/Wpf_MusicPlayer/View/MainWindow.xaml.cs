@@ -359,5 +359,11 @@ namespace Wpf_MusicPlayer
         }
 
         #endregion
+
+        private void MenageLibrary_Click(object sender, RoutedEventArgs e)
+        {
+            AddLibraryWindow addLibraryWindow = new AddLibraryWindow();
+            addLibraryWindow.ShowDialog();
+        }
     }
 }

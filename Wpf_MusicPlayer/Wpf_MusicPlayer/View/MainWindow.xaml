@@ -88,6 +88,11 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Name="MenageLibrary" Background="White" Click="MenageLibrary_Click" Margin="3" Padding="3">
+                        <Button.Content>
+                            <Image Source="/IMG/home.png" MaxHeight="35"/>
+                        </Button.Content>
+                    </Button>
                     <Image Grid.Column="0" Source="/IMG/home.png" MaxHeight="35"/>
                     <Label Grid.Column="1" VerticalContentAlignment="Center">Biblioteka</Label>
                 </Grid>
