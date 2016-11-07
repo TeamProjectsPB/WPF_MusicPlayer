@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -62,7 +63,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AddNewPlaylist.xaml">
+    <Page Include="View\AddNewPlaylistWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -80,8 +81,8 @@
     <Compile Include="View\AddLibraryWindow.xaml.cs">
       <DependentUpon>AddLibraryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\AddNewPlaylist.xaml.cs">
-      <DependentUpon>AddNewPlaylist.xaml</DependentUpon>
+    <Compile Include="View\AddNewPlaylistWindow.xaml.cs">
+      <DependentUpon>AddNewPlaylistWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

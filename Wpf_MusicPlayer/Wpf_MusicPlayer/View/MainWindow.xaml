@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_MusicPlayer"
         mc:Ignorable="d"
-        Title="Odtwarzacz muzyczny" MinHeight="650" MinWidth="650">
+        Title="Odtwarzacz muzyczny" MinHeight="650" MinWidth="650"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <!--<ResourceDictionary Source="Dictionary.xaml"/>-->
         <DataTemplate x:Key="LibraryDataTemplate">
@@ -54,19 +55,21 @@
 
         <GroupBox Name="PlaylistsGroupBox" Grid.Column="0" Grid.Row="0" Margin="5">
             <GroupBox.Header>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="/IMG/cassettetape.png" MaxHeight="45"/>
-                    <Label Grid.Column="1" VerticalContentAlignment="Center">Playlisty</Label>
-                </Grid>
+                <Button Grid.Column="0" Name="ManagePlaylist" Background="White" Click="ManagePlaylist_OnClick" Margin="3" Padding="3" BorderThickness="0" BorderBrush="Transparent">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/IMG/cassettetape.png" MaxHeight="45"/>
+                        <Label Grid.Column="1" VerticalContentAlignment="Center">Playlisty</Label>
+                    </Grid>
+                </Button>
             </GroupBox.Header>
             <ListView Name="PlaylistsListView" Margin="4">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Dodaj nową" Name="AddNewPlaylistItem" />
+                        <MenuItem Header="Dodaj nową" Name="AddNewPlaylistItem" Click="AddNewPlaylistItem_OnClick" />
                         <!--<MenuItem Header="Usuń" Name="RemovePlaylistItem"/>-->
                         <Separator />
                         <MenuItem Header="Eksportuj..." />
@@ -83,19 +86,19 @@
 
         <GroupBox Name="LibraryGroupBox" Grid.Column="0" Grid.Row="1" Margin="5">
             <GroupBox.Header>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Name="MenageLibrary" Background="White" Click="MenageLibrary_Click" Margin="3" Padding="3">
-                        <Button.Content>
-                            <Image Source="/IMG/home.png" MaxHeight="35"/>
-                        </Button.Content>
-                    </Button>
-                    <Image Grid.Column="0" Source="/IMG/home.png" MaxHeight="35"/>
-                    <Label Grid.Column="1" VerticalContentAlignment="Center">Biblioteka</Label>
-                </Grid>
+                <Button Grid.Column="0" Name="ManageLibrary" Background="White" Click="ManageLibrary_Click" Margin="3" Padding="3" BorderThickness="0" BorderBrush="Transparent">
+                    <Button.Content>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="/IMG/home.png" MaxHeight="35"/>
+                            <Label Grid.Column="1" VerticalContentAlignment="Center">Biblioteka</Label>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                
             </GroupBox.Header>
             <ListView Name="LibraryListView" Margin="4"
                       ItemTemplate="{StaticResource LibraryDataTemplate}">

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Wpf_MusicPlayer.Model;
 using Wpf_MusicPlayer.View;
+using ListViewItem = System.Windows.Controls.ListViewItem;
 using MediaPlayer = Wpf_MusicPlayer.Model.MediaPlayer;
+using MenuItem = System.Windows.Controls.MenuItem;
 using Song = TagLib.File;
 
 namespace Wpf_MusicPlayer
@@ -117,8 +119,6 @@ namespace Wpf_MusicPlayer
         {
             get { return player.Libraries; }
         }
-
-        // public int SongId { get; set; }
 
         #endregion
         #region Constructors
@@ -360,10 +360,32 @@ namespace Wpf_MusicPlayer
 
         #endregion
 
-        private void MenageLibrary_Click(object sender, RoutedEventArgs e)
+        private void ManageLibrary_Click(object sender, RoutedEventArgs e)
         {
             AddLibraryWindow addLibraryWindow = new AddLibraryWindow();
             addLibraryWindow.ShowDialog();
         }
+
+        #region PlaylistManager
+
+        private void AddPlaylistWindow()
+        {
+            AddNewPlaylistWindow dialog = new AddNewPlaylistWindow();
+            if (dialog.ShowDialog() == true)
+            {
+                CreatePlaylist(dialog.PlaylistName);
+                ReloadPlaylistsListViewItemsSource();
+            }
+        }
+        private void ManagePlaylist_OnClick(object sender, RoutedEventArgs e)
+        {
+            AddPlaylistWindow();
+        }
+
+        private void AddNewPlaylistItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            AddPlaylistWindow();
+        }
+        #endregion
     }
 }
