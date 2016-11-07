@@ -133,8 +133,23 @@
                     <!--Text="Czego szukasz?"-->
                 </Grid>
             </GroupBox.Header>
-            <ListView Name="CurrentPlayingListView" Margin="4"
+            <!--<ListView Name="CurrentPlayingListView" Margin="4"
                       ItemTemplate="{StaticResource CurrentTracksData}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        <EventSetter Event="MouseDoubleClick" x:Name="CurrentTrackItemDoubleClick" Handler="CurrentTrackItemDoubleClick"></EventSetter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>-->
+            <ListView Name="CurrentPlayingListView" Margin="5">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Autor" Width="auto" DisplayMemberBinding="{Binding Tag.FirstPerformer}"/>
+                        <GridViewColumn Header="Tytuł" Width="auto" DisplayMemberBinding="{Binding Tag.Title}"/>
+                        <GridViewColumn Header="Album" Width="auto" DisplayMemberBinding="{Binding Tag.Album}"/>
+                    </GridView>
+                </ListView.View>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
