@@ -62,6 +62,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddNewPlaylist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,6 +79,9 @@
     <Compile Include="Model\MediaPlayer.cs" />
     <Compile Include="View\AddLibraryWindow.xaml.cs">
       <DependentUpon>AddLibraryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddNewPlaylist.xaml.cs">
+      <DependentUpon>AddNewPlaylist.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
