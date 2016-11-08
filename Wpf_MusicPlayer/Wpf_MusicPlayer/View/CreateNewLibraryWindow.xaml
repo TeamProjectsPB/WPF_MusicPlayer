@@ -1,0 +1,41 @@
+﻿<Window x:Class="Wpf_MusicPlayer.View.CreateNewLibraryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf_MusicPlayer.View"
+        xmlns:folderPickerLib="clr-namespace:FolderPickerLib;assembly=FolderPickerLib"
+        mc:Ignorable="d"
+        Title="Dodawanie biblioteki" Height="300" Width="300"
+        WindowStartupLocation="CenterScreen">
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label>Podaj nazwę biblioteki:</Label>
+            <TextBox Name="LibraryNameTextBox" Grid.Column="1" Margin="3" Text="{Binding Path=LibName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        </Grid>
+        <Separator Grid.Row="1"/>
+        <folderPickerLib:FolderPickerControl Margin="3" Name="FolderPickerControl"  Grid.Row="2" Grid.ColumnSpan="2"/>
+        <Separator Grid.Row="3"/>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Content="OK" Margin="5" Padding="3" Name="OK" Click="OK_OnClick" />
+            <Button Grid.Column="2" Content="ANULUJ" Margin="5" Padding="3" Name="Cancel" Click="Cancel_OnClick"/>
+        </Grid>
+        
+    </Grid>
+</Window>

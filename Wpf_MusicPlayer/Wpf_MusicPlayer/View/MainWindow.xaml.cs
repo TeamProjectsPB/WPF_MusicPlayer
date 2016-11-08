@@ -182,7 +182,7 @@ namespace Wpf_MusicPlayer
 
         private void AddNewLibraryItem_OnClick(object sender, RoutedEventArgs e)
         {
-            AddLibraryWindow addLibraryWindow = new AddLibraryWindow();
+            AddLibraryWindow addLibraryWindow = new AddLibraryWindow(this);
             addLibraryWindow.ShowDialog();
         }
 
@@ -190,6 +190,11 @@ namespace Wpf_MusicPlayer
         {
             var item = sender as MenuItem;
             var library = item.DataContext as Library;
+            RemoveLibrary(library);
+        }
+
+        public void RemoveLibrary(Library library)
+        {
             var removedCurrentLib = player.RemoveLibrary(library.Name);
             ConfigFile.RemoveLibrary(fileUrl, library.Name);
             ReloadLibraryListViewItemsSource();
@@ -227,19 +232,19 @@ namespace Wpf_MusicPlayer
         #endregion      
         #region ReloadItemsSource
 
-        private void ReloadPlaylistsListViewItemsSource()
+        public void ReloadPlaylistsListViewItemsSource()
         {
             PlaylistsListView.ItemsSource = null;
             PlaylistsListView.ItemsSource = PlaylistsToString;
         }
 
-        private void ReloadLibraryListViewItemsSource()
+        public void ReloadLibraryListViewItemsSource()
         {
             LibraryListView.ItemsSource = null;
             LibraryListView.ItemsSource = Libraries;
         }
 
-        private void ReloadCurrentPlayingListViewItemsSource()
+        public void ReloadCurrentPlayingListViewItemsSource()
         {
             CurrentPlayingListView.ItemsSource = null;
             CurrentPlayingListView.ItemsSource = CurrentSongs;
@@ -274,11 +279,13 @@ namespace Wpf_MusicPlayer
         public void AddLibrary(string name, string url)
         {
             player.AddLibrary(name, url);
+            ReloadLibraryListViewItemsSource();
         }
 
         public void AddPlaylist(string name)
         {
             player.AddPlaylist(name);
+            ReloadPlaylistsListViewItemsSource();            
         }
 
         #endregion
@@ -288,12 +295,13 @@ namespace Wpf_MusicPlayer
         {
             ConfigFile.SaveNewPlaylist(fileUrl, name);
             player.CreatePlaylist(name);
+            ReloadPlaylistsListViewItemsSource();
         }
 
         public void CreateLibrary(string name, string url)
         {
-            ConfigFile.SaveNewLibrary(fileUrl, name, url);
             AddLibrary(name, url);
+            ConfigFile.SaveNewLibrary(fileUrl, name, url);
         }
 
         #endregion
@@ -370,7 +378,7 @@ namespace Wpf_MusicPlayer
 
         private void ManageLibrary_Click(object sender, RoutedEventArgs e)
         {
-            AddLibraryWindow addLibraryWindow = new AddLibraryWindow();
+            AddLibraryWindow addLibraryWindow = new AddLibraryWindow(this);
             addLibraryWindow.ShowDialog();
         }
 
@@ -382,7 +390,6 @@ namespace Wpf_MusicPlayer
             if (dialog.ShowDialog() == true)
             {
                 CreatePlaylist(dialog.PlaylistName);
-                ReloadPlaylistsListViewItemsSource();
             }
         }
         private void ManagePlaylist_OnClick(object sender, RoutedEventArgs e)
@@ -395,5 +402,7 @@ namespace Wpf_MusicPlayer
             AddPlaylistWindow();
         }
         #endregion
+
+        
     }
 }

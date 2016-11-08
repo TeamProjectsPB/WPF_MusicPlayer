@@ -11,6 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using FolderPickerLib;
+using Wpf_MusicPlayer.Model;
+using WPFFolderBrowser;
+
 
 namespace Wpf_MusicPlayer.View
 {
@@ -19,14 +23,43 @@ namespace Wpf_MusicPlayer.View
     /// </summary>
     public partial class AddLibraryWindow : Window
     {
-        public AddLibraryWindow()
+        private Window parentWindow;
+
+        private MainWindow mainWindow;
+        
+        public AddLibraryWindow(Window parentWindow)
         {
+            this.parentWindow = parentWindow;
             InitializeComponent();
+            if (this.parentWindow is MainWindow)
+            {
+                mainWindow = parentWindow as MainWindow;
+                LibrariesListView.ItemsSource = mainWindow.Libraries;
+            }            
+        }
+        private void ReloadLibraryListViewItemsSource()
+        {
+            LibrariesListView.ItemsSource = null;
+            LibrariesListView.ItemsSource = mainWindow.Libraries;
         }
 
         private void AddLibraryBtn_Click(object sender, RoutedEventArgs e)
         {
+            CreateNewLibraryWindow dialog = new CreateNewLibraryWindow();
+            if (dialog.ShowDialog() == true)
+            {
+                var sourceUrl = dialog.SourceUrl;
+                var name = dialog.LibName;
+                mainWindow.CreateLibrary(name, sourceUrl);
+                ReloadLibraryListViewItemsSource();
+            }
+        }
 
+        private void DelLibraryBtn_Onclick(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = LibrariesListView.SelectedItem as Library;
+            mainWindow.RemoveLibrary(selectedItem);
+            ReloadLibraryListViewItemsSource();
         }
     }
 }
