@@ -155,6 +155,12 @@
                 </ListView.Resources>
                 <ListView.View>
                     <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style>
+                                <Setter Property="HeaderedItemsControl.FontSize"
+							    Value="16" />
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn Header="Autor" Width="auto" DisplayMemberBinding="{Binding Tag.FirstPerformer}"
                                         converter:GridViewSort.PropertyName="Tag.FirstPerformer"/>
                         <GridViewColumn Header="Tytuł" Width="auto" DisplayMemberBinding="{Binding Tag.Title}"
@@ -165,6 +171,7 @@
                 </ListView.View>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <Setter Property="FontSize" Value="16"></Setter>
                         <Setter Property="ContextMenu" Value="{StaticResource CurrentSongContextMenu}"></Setter>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                         <EventSetter Event="MouseDoubleClick" x:Name="CurrentTrackItemDoubleClick" Handler="CurrentTrackItemDoubleClick"></EventSetter>
