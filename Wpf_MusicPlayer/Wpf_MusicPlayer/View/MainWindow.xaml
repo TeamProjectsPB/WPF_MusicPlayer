@@ -145,13 +145,20 @@
             <ListView Name="CurrentPlayingListView" Margin="5">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Autor" Width="auto" DisplayMemberBinding="{Binding Tag.FirstPerformer}"/>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style>
+                                <Setter Property="HeaderedItemsControl.FontSize"
+							Value="16" />
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Header="Autor" Width="250" DisplayMemberBinding="{Binding Tag.FirstPerformer}"/>
                         <GridViewColumn Header="Tytuł" Width="auto" DisplayMemberBinding="{Binding Tag.Title}"/>
                         <GridViewColumn Header="Album" Width="auto" DisplayMemberBinding="{Binding Tag.Album}"/>
                     </GridView>
                 </ListView.View>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <Setter Property="FontSize" Value="16"></Setter>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                         <EventSetter Event="MouseDoubleClick" x:Name="CurrentTrackItemDoubleClick" Handler="CurrentTrackItemDoubleClick"></EventSetter>
                     </Style>
