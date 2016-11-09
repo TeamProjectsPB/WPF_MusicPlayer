@@ -57,9 +57,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFFolderBrowser">
-      <HintPath>..\..\..\..\VISUAL STUDIO LIBRARIES\WPFFolderBrowser.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -68,6 +65,9 @@
     </ApplicationDefinition>
     <Compile Include="Converter\GridViewSort.cs" />
     <Compile Include="Converter\Validator.cs" />
+    <Compile Include="View\AddTrackToPlaylistWindow.xaml.cs">
+      <DependentUpon>AddTrackToPlaylistWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CreateNewLibraryWindow.xaml.cs">
       <DependentUpon>CreateNewLibraryWindow.xaml</DependentUpon>
     </Compile>
@@ -76,6 +76,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddNewPlaylistWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddTrackToPlaylistWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

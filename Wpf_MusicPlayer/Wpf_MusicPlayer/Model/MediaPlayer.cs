@@ -578,7 +578,7 @@ namespace Wpf_MusicPlayer.Model
             {
                 mPlayer.playlistCollection.getByName(playlistName).Item(i).appendItem(song);
             }
-            SetCurrentPlaylistSongUrl(playlists.Item(0));
+            //SetCurrentPlaylistSongUrl(playlists.Item(0));
         }
 
         public void CreatePlaylist(string name)

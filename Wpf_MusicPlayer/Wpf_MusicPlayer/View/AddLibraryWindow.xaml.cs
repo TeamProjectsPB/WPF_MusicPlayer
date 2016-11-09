@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using FolderPickerLib;
 using Wpf_MusicPlayer.Model;
-using WPFFolderBrowser;
 
 
 namespace Wpf_MusicPlayer.View

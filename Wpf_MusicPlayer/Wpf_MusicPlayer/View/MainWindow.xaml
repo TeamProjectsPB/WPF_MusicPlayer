@@ -147,6 +147,12 @@
                       IsSynchronizedWithCurrentItem="True"
                       converter:GridViewSort.AutoSort="True"
                       converter:GridViewSort.ShowSortGlyph="True">
+                <ListView.Resources>
+                    <ContextMenu x:Key="CurrentSongContextMenu">
+                        <MenuItem Header="Dodaj do playlisty..." Name="AddTrackToPlaylistItem" Click="AddTrackToPlaylistItem_OnClick"/>
+                        <MenuItem Header="Usuń z aktualnie odtwarzanych" Name="RemoveTrackItem" Click="RemoveTrackItem_OnClick"/>
+                    </ContextMenu>
+                </ListView.Resources>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Autor" Width="auto" DisplayMemberBinding="{Binding Tag.FirstPerformer}"
@@ -159,6 +165,7 @@
                 </ListView.View>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <Setter Property="ContextMenu" Value="{StaticResource CurrentSongContextMenu}"></Setter>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                         <EventSetter Event="MouseDoubleClick" x:Name="CurrentTrackItemDoubleClick" Handler="CurrentTrackItemDoubleClick"></EventSetter>
                     </Style>

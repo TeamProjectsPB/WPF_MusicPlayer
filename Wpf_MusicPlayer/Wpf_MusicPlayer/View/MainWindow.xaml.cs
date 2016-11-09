@@ -209,12 +209,22 @@ namespace Wpf_MusicPlayer
 
         private void AddTrackToPlaylistItem_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var song = sender.ToString();
+            AddTrackToPlaylistWindow dialog = new AddTrackToPlaylistWindow(PlaylistsToString);
+            if (dialog.ShowDialog() == true)
+            {
+                var item = (Song)CurrentPlayingListView.SelectedItem;
+                var index = CurrentSongs.FindIndex(x => x.Name.Equals(item.Name));
+                var playlistName = dialog.SelectedPlaylistName;
+                player.AddTrackToPlaylist(index, playlistName);
+            }
         }
 
         private void RemoveTrackItem_OnClick(object sender, RoutedEventArgs e)
         {
-            player.RemoveTrack(CurrentPlayingListView.SelectedIndex);
+            var item = (Song) CurrentPlayingListView.SelectedItem;
+            var index = CurrentSongs.FindIndex(x => x.Name.Equals(item.Name));
+            player.RemoveTrack(index);
             ReloadCurrentPlayingListViewItemsSource();
         }
 
