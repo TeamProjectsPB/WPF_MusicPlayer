@@ -160,6 +160,7 @@ namespace Wpf_MusicPlayer
             OnPropertyChanged("DurationToString");
             OnPropertyChanged("Duration");
             OnPropertyChanged("CurrentPosition");
+            OnPropertyChanged("CurrentSong");
         }
         #endregion
         #region Sliders
