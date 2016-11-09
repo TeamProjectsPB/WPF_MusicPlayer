@@ -218,6 +218,8 @@ namespace Wpf_MusicPlayer
                 var index = CurrentSongs.FindIndex(x => x.Name.Equals(item.Name));
                 var playlistName = dialog.SelectedPlaylistName;
                 player.AddTrackToPlaylist(index, playlistName);
+                ReloadPlaylistsListViewItemsSource();
+                ReloadCurrentPlayingListViewItemsSource();
             }
         }
 
