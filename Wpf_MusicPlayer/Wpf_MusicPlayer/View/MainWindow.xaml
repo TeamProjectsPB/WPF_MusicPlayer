@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_MusicPlayer"
+        xmlns:converter="clr-namespace:Wpf_MusicPlayer.Converter"
         mc:Ignorable="d"
         Title="Odtwarzacz muzyczny" MinHeight="650" MinWidth="650"
         WindowStartupLocation="CenterScreen">
@@ -142,12 +143,18 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>-->
-            <ListView Name="CurrentPlayingListView" Margin="5">
+            <ListView Name="CurrentPlayingListView" Margin="5"
+                      IsSynchronizedWithCurrentItem="True"
+                      converter:GridViewSort.AutoSort="True"
+                      converter:GridViewSort.ShowSortGlyph="True">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Autor" Width="auto" DisplayMemberBinding="{Binding Tag.FirstPerformer}"/>
-                        <GridViewColumn Header="Tytuł" Width="auto" DisplayMemberBinding="{Binding Tag.Title}"/>
-                        <GridViewColumn Header="Album" Width="auto" DisplayMemberBinding="{Binding Tag.Album}"/>
+                        <GridViewColumn Header="Autor" Width="auto" DisplayMemberBinding="{Binding Tag.FirstPerformer}"
+                                        converter:GridViewSort.PropertyName="Tag.FirstPerformer"/>
+                        <GridViewColumn Header="Tytuł" Width="auto" DisplayMemberBinding="{Binding Tag.Title}"
+                                        converter:GridViewSort.PropertyName="Tag.Title"/>
+                        <GridViewColumn Header="Album" Width="auto" DisplayMemberBinding="{Binding Tag.Album}"
+                                        converter:GridViewSort.PropertyName="Tag.Album"/>
                     </GridView>
                 </ListView.View>
                 <ListView.ItemContainerStyle>

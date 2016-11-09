@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\GridViewSort.cs" />
     <Compile Include="Converter\Validator.cs" />
     <Compile Include="View\CreateNewLibraryWindow.xaml.cs">
       <DependentUpon>CreateNewLibraryWindow.xaml</DependentUpon>
