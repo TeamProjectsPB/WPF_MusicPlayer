@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_MusicPlayer"
         xmlns:converter="clr-namespace:Wpf_MusicPlayer.Converter"
+        xmlns:ctrl="clr-namespace:Wpf_MusicPlayer.Converter.ListViewLayoutManager"
         mc:Ignorable="d"
         Title="Odtwarzacz muzyczny" MinHeight="650" MinWidth="650"
         WindowStartupLocation="CenterScreen">
@@ -146,7 +147,8 @@
             <ListView Name="CurrentPlayingListView" Margin="5"
                       IsSynchronizedWithCurrentItem="True"
                       converter:GridViewSort.AutoSort="True"
-                      converter:GridViewSort.ShowSortGlyph="True">
+                      converter:GridViewSort.ShowSortGlyph="True"
+                      ctrl:ListViewLayoutManager.Enabled="True">
                 <ListView.Resources>
                     <ContextMenu x:Key="CurrentSongContextMenu">
                         <MenuItem Header="Dodaj do playlisty..." Name="AddTrackToPlaylistItem" Click="AddTrackToPlaylistItem_OnClick"/>
@@ -161,12 +163,15 @@
 							    Value="16" />
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
-                        <GridViewColumn Header="Autor" Width="auto" DisplayMemberBinding="{Binding Tag.FirstPerformer}"
-                                        converter:GridViewSort.PropertyName="Tag.FirstPerformer"/>
-                        <GridViewColumn Header="Tytuł" Width="auto" DisplayMemberBinding="{Binding Tag.Title}"
-                                        converter:GridViewSort.PropertyName="Tag.Title"/>
-                        <GridViewColumn Header="Album" Width="auto" DisplayMemberBinding="{Binding Tag.Album}"
-                                        converter:GridViewSort.PropertyName="Tag.Album"/>
+                        <GridViewColumn Header="Autor" DisplayMemberBinding="{Binding Tag.FirstPerformer}"
+                                        converter:GridViewSort.PropertyName="Tag.FirstPerformer"
+                                        ctrl:ProportionalColumn.Width="1"/>
+                        <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Tag.Title}"
+                                        converter:GridViewSort.PropertyName="Tag.Title"
+                                        ctrl:ProportionalColumn.Width="2"/>
+                        <GridViewColumn Header="Album" DisplayMemberBinding="{Binding Tag.Album}"
+                                        converter:GridViewSort.PropertyName="Tag.Album"
+                                        ctrl:ProportionalColumn.Width="1"/>
                     </GridView>
                 </ListView.View>
                 <ListView.ItemContainerStyle>

@@ -64,6 +64,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\GridViewSort.cs" />
+    <Compile Include="Converter\ListViewLayoutManager\ConverterGridViewColumn.cs" />
+    <Compile Include="Converter\ListViewLayoutManager\FixedColumn.cs" />
+    <Compile Include="Converter\ListViewLayoutManager\ImageGridViewColumn.cs" />
+    <Compile Include="Converter\ListViewLayoutManager\LayoutColumn.cs" />
+    <Compile Include="Converter\ListViewLayoutManager\ListViewLayoutManager.cs" />
+    <Compile Include="Converter\ListViewLayoutManager\ProportionalColumn.cs" />
+    <Compile Include="Converter\ListViewLayoutManager\RangeColumn.cs" />
     <Compile Include="Converter\Validator.cs" />
     <Compile Include="View\AddTrackToPlaylistWindow.xaml.cs">
       <DependentUpon>AddTrackToPlaylistWindow.xaml</DependentUpon>
