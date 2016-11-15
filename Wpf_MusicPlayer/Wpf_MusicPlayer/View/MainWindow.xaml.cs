@@ -88,9 +88,6 @@ namespace Wpf_MusicPlayer
         }
         #endregion
 
-
-
-
         public List<Song> CurrentSongs
         {
             get { return player.CurrentSongs; }
@@ -147,10 +144,27 @@ namespace Wpf_MusicPlayer
             LibraryListView.ItemsSource = Libraries;
             CurrentPlayingListView.ItemsSource = CurrentSongs;
 
+            CreateTitleToFilesWithoutMetaData();
+
             timer = new DispatcherTimer();
             timer.Tick += TimerOnTick;
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Start();
+        }
+        #endregion
+        #region SongMetaData
+
+        private void CreateTitleToFilesWithoutMetaData()
+        {
+            foreach (Song song in CurrentSongs)
+            {
+                if (string.IsNullOrWhiteSpace(song.Tag.Title))
+                {
+                    var path = Path.GetFileNameWithoutExtension(song.Name);
+                    song.Tag.Title = path;
+                    song.Save();
+                }
+            }
         }
         #endregion
         #region Timer
@@ -315,6 +329,7 @@ namespace Wpf_MusicPlayer
         {
             AddLibrary(name, url);
             ConfigFile.SaveNewLibrary(fileUrl, name, url);
+            CreateTitleToFilesWithoutMetaData();
         }
 
         #endregion
