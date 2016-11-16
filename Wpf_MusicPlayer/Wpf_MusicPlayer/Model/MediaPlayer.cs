@@ -429,7 +429,7 @@ namespace Wpf_MusicPlayer.Model
             {
                 PlaylistsUrl.Add(playlist.name, urls);
             }
-            //currentPlaylistSongUrl = PlaylistsUrl[playlist.name];
+            currentPlaylistSongUrl = PlaylistsUrl[playlist.name];
         }
 
         #endregion

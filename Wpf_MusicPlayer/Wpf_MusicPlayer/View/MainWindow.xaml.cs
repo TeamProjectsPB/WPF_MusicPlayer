@@ -242,6 +242,8 @@ namespace Wpf_MusicPlayer
             var item = (Song) CurrentPlayingListView.SelectedItem;
             var index = CurrentSongs.FindIndex(x => x.Name.Equals(item.Name));
             player.RemoveTrack(index);
+            CurrentSongs.RemoveAt(index);
+            //CurrentSongs.Remove(item);
             ReloadCurrentPlayingListViewItemsSource();
         }
 
@@ -263,18 +265,23 @@ namespace Wpf_MusicPlayer
         {
             PlaylistsListView.ItemsSource = null;
             PlaylistsListView.ItemsSource = PlaylistsToString;
+            PlaylistsListView.SelectedIndex = -1;
         }
+
+              
 
         public void ReloadLibraryListViewItemsSource()
         {
             LibraryListView.ItemsSource = null;
             LibraryListView.ItemsSource = Libraries;
+            LibraryListView.SelectedIndex = -1;
         }
 
         public void ReloadCurrentPlayingListViewItemsSource()
         {
             CurrentPlayingListView.ItemsSource = null;
             CurrentPlayingListView.ItemsSource = CurrentSongs;
+            CurrentPlayingListView.SelectedIndex = -1;
         }
 
         #endregion
