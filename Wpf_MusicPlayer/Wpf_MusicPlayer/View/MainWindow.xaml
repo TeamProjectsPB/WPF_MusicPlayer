@@ -69,6 +69,7 @@
                 </Button>
             </GroupBox.Header>
             <ListView Name="PlaylistsListView" Margin="4">
+                
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Dodaj nową" Name="AddNewPlaylistItem" Click="AddNewPlaylistItem_OnClick" />
@@ -81,6 +82,8 @@
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                         <EventSetter Event="MouseDoubleClick" x:Name="PlaylistItemDoubleClick" Handler="PlaylistItemDoubleClick"></EventSetter>
+                        <Setter Property="FontSize" Value="16"></Setter>
+                        <Setter Property="Foreground" Value="Black"></Setter>
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
@@ -108,6 +111,8 @@
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                         <EventSetter Event="MouseDoubleClick" x:Name="LibraryItemDoubleClick" Handler="LibraryItemDoubleClick"></EventSetter>
+                        <Setter Property="FontSize" Value="16"></Setter>
+                        <Setter Property="Foreground" Value="Black"></Setter>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ContextMenu>
@@ -148,7 +153,8 @@
                       IsSynchronizedWithCurrentItem="True"
                       converter:GridViewSort.AutoSort="True"
                       converter:GridViewSort.ShowSortGlyph="True"
-                      ctrl:ListViewLayoutManager.Enabled="True">
+                      ctrl:ListViewLayoutManager.Enabled="True"
+                      >
                 <ListView.Resources>
                     <ContextMenu x:Key="CurrentSongContextMenu">
                         <MenuItem Header="Dodaj do playlisty..." Name="AddTrackToPlaylistItem" Click="AddTrackToPlaylistItem_OnClick"/>
@@ -177,6 +183,7 @@
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="FontSize" Value="16"></Setter>
+                        <Setter Property="Foreground" Value="Black"></Setter>
                         <Setter Property="ContextMenu" Value="{StaticResource CurrentSongContextMenu}"></Setter>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                         <EventSetter Event="MouseDoubleClick" x:Name="CurrentTrackItemDoubleClick" Handler="CurrentTrackItemDoubleClick"></EventSetter>

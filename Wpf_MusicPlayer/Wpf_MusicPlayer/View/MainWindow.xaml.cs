@@ -160,9 +160,16 @@ namespace Wpf_MusicPlayer
             {
                 if (string.IsNullOrWhiteSpace(song.Tag.Title))
                 {
-                    var path = Path.GetFileNameWithoutExtension(song.Name);
-                    song.Tag.Title = path;
-                    song.Save();
+                    try
+                    {
+                        var path = Path.GetFileNameWithoutExtension(song.Name);
+                        song.Tag.Title = path;
+                        song.Save();
+                    }
+                    catch (Exception e)
+                    {
+                        e.ToString();
+                    }
                 }
             }
         }
